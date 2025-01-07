@@ -22,6 +22,7 @@ module.exports.register = async (req,res) => {
             fullname: req.body.fullname,
             email: req.body.email,
             password: req.body.password,
+            token: generateHelper.generateRandomString(30)
         });
 
         user.save();
@@ -92,7 +93,7 @@ module.exports.forgotPassword = async (req, res) => {
         const objectForgotPassword = Password = {
             email: email,
             otp: otp,
-            expireAt: Date.now() + timeExpire*120,
+            expireAt: Date.now() + timeExpire*6000,
         };
         console.log(otp)
         const forgotPassword = new ForgotPassword(objectForgotPassword);
@@ -136,7 +137,7 @@ module.exports.otpPassword = async (req, res) => {
 };
 // [POST]/api/v1/users/password/reset
 module.exports.resetPassword = async (req, res) => {
-    const token = req.body.token;
+    const token = req.cookies.token;
     const password = req.body.password;
     
     const user = await User.findOne({
@@ -161,3 +162,17 @@ module.exports.resetPassword = async (req, res) => {
         message: "Doi mat khau thanh cong"
     });
 };
+// [GET]/api/v1/users/detail
+module.exports.detail = async (req, res) => {
+    const token = req.cookies.token;
+
+    const user = await User.findOne({
+        token: token,
+        deleted: false
+    }).select("-password -token");
+    res.json({
+        code:200,
+        message: "Thanh cong",
+        info: user
+    })
+}
