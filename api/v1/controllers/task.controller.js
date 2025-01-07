@@ -1,4 +1,4 @@
-const Task = require("../../../models/task.model");
+const Task = require("../models/task.model");
 const paginationHelper = require("../../../helpers/pagination")
 const searchHelper = require("../../../helpers/search")
 
@@ -47,7 +47,7 @@ module.exports.detail = async(req, res) => {
             _id: id,
             deleted : false
         })
-       
+        console.log(tasks);
         res.json(tasks);
     }catch{
         res.json("Not found");
