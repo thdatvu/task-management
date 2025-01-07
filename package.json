@@ -17,6 +17,7 @@
     "express": "^4.21.2",
     "md5": "^2.3.0",
     "mongoose": "^8.9.3",
+    "nodemailer": "^6.9.16",
     "task-management": "file:"
   },
   "devDependencies": {
